@@ -1,0 +1,50 @@
+USE [friction0]
+GO
+
+SET ANSI_NULLS OFF
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Restaurants](
+	[ID] [bigint] IDENTITY (1,1) NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Address] [nvarchar](256) NOT NULL,
+	[ZipCode] [nvarchar](10) NOT NULL,
+	[LogoPictureUrl] [nvarchar](512) NULL,
+ CONSTRAINT [PrimaryKey_65628aa9-37c1-4a2a-8dfc-72150349bd1a] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+
+GO
+
+CREATE TABLE [dbo].[Menu](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[RestaurantID] [bigint] NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Price] [float] NOT NULL,
+	[PictureUrl] [nvarchar](512) NULL,
+ CONSTRAINT [PrimaryKey_9370f122-0492-4cd7-94c1-1c46d75d1fa5] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON),
+CONSTRAINT [FK_Menu_RestaurantId] FOREIGN KEY([RestaurantID]) REFERENCES [dbo].[Restaurants] ([ID])
+)
+GO
+
+CREATE TABLE [dbo].[DishDetails](
+	[ID] [bigint] IDENTITY (1,1) NOT NULL,
+	[DishID] [bigint] NOT NULL,
+	[IngredientName] [nvarchar](255) NOT NULL,
+ CONSTRAINT [PrimaryKey_6a7e6cd1-5930-45e6-8c82-e9db197b6ab8] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON),
+CONSTRAINT [FK_DishDetails_DishID] FOREIGN KEY([DishID]) REFERENCES [dbo].[Menu] ([ID])
+
+)
+
+GO
